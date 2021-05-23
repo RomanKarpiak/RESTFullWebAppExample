@@ -18,7 +18,10 @@ import java.util.List;
 @RequestMapping(value = "/customers", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class CustomerController {
 
-    private final CustomerDAO customerDAO;
+    private CustomerDAO customerDAO;
+
+    public CustomerController() {
+    }
 
     @Autowired
     public CustomerController(CustomerDAO customerDAO) {
@@ -30,14 +33,14 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> getListCustomers() {
         List<Customer> customers = customerDAO.findAll();
         return !customers.isEmpty()
-                ? new ResponseEntity<>(customers,HttpStatus.OK)
+                ? new ResponseEntity<>(customers, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/get-customer/{id}")
     @JsonView(Views.Private.class)
-    public ResponseEntity<Customer> getCustomerById(@PathVariable String id) {
-        Customer customer = customerDAO.findById(Long.parseLong(id));
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+        Customer customer = customerDAO.findById(id);
         return customer.getId() != null ?
                 new ResponseEntity<>(customer, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -46,21 +49,29 @@ public class CustomerController {
     @PostMapping(value = "/create-customer")
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         customerDAO.create(customer);
-        return new ResponseEntity<>(customer,HttpStatus.CREATED);
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
 
     }
 
     @PutMapping(value = "/update-customer/{id}")
-    public Customer update(@PathVariable String id, @RequestBody Customer newCustomer) {
-        Customer customer = customerDAO.findById(Long.parseLong(id));
+    public ResponseEntity<Customer> update(@PathVariable Long id, @RequestBody Customer newCustomer) {
+        Customer customer = customerDAO.findById(id);
+        if (customer.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
         BeanUtils.copyProperties(newCustomer, customer, "id");
         customerDAO.update(customer);
-        return newCustomer;
+        return new ResponseEntity<>(newCustomer, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-customer/{id}")
-    public void delete(@PathVariable String id, Customer customer) {
+    public ResponseEntity<Long> delete(@PathVariable Long id) {
+        Customer customer = customerDAO.findById(id);
+        if (customer.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         customerDAO.delete(customer);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
 }

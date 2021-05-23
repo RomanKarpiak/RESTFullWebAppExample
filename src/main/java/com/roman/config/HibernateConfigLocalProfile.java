@@ -45,6 +45,7 @@ public class HibernateConfigLocalProfile {
     public DataSourceInitializer dataSourceInitializer(DataSource ds) {
         ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
         resourceDatabasePopulator.addScript(new ClassPathResource("/data.sql"));
+//        resourceDatabasePopulator.addScript(new ClassPathResource("/schema.sql"));
         DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
         dataSourceInitializer.setDataSource(ds);
         dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
@@ -59,8 +60,7 @@ public class HibernateConfigLocalProfile {
 
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         hibernateProperties.put("hibernate.format_sql", "true");
         hibernateProperties.put("hibernate.show_sql", "true");
         hibernateProperties.put("hibernate.hbm2ddl.auto", "create");

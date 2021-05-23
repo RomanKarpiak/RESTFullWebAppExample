@@ -30,7 +30,8 @@ public class Customer implements Serializable {
     @JsonView(Views.Private.class)
     private String email;
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonView(Views.Private.class)
     private Cart cart;
 
     @Embedded

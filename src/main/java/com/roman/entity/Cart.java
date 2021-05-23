@@ -1,10 +1,13 @@
 package com.roman.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.roman.views.Views;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "cart")
@@ -12,18 +15,41 @@ public class Cart implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.Private.class)
     private Long id;
 
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade =
+            {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.PERSIST
+            })
     @JoinTable(name = "cart_product",
-            joinColumns = @JoinColumn(name = "cart_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "cart_id", referencedColumnName = "id", nullable = false,
+                    updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false,
+                    updatable = false)
     )
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
+
+    public void addProduct(Product product) {
+        boolean added = this.products.add(product);
+        if (added) {
+            product.getCarts().add(this);
+        }
+    }
+
+    public void removeProduct(Product product) {
+        boolean removed = this.products.remove(product);
+        if (removed) {
+            product.getCarts().remove(this);
+        }
+    }
 
     public Cart() {
     }
@@ -44,11 +70,11 @@ public class Cart implements Serializable {
         this.customer = customer;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 
@@ -57,12 +83,12 @@ public class Cart implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return Objects.equals(id, cart.id) && Objects.equals(customer, cart.customer) && Objects.equals(products, cart.products);
+        return Objects.equals(id, cart.id) && Objects.equals(customer, cart.customer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customer, products);
+        return Objects.hash(id, customer);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> getListProducts() {
         List<Product> products = productDAO.findAll();
         return !products.isEmpty()
-                ? new ResponseEntity<>(products,HttpStatus.OK)
+                ? new ResponseEntity<>(products, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -45,20 +45,28 @@ public class ProductController {
     @PostMapping(value = "/create-product")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         productDAO.create(product);
-        return new ResponseEntity<>(product,HttpStatus.CREATED);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
 
     }
 
     @PutMapping(value = "/update-product/{id}")
-    public Product update(@PathVariable String id, @RequestBody Product newProduct) {
+    public ResponseEntity<Product> update(@PathVariable String id, @RequestBody Product newProduct) {
         Product product = productDAO.findById(Long.parseLong(id));
+        if (product.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
         BeanUtils.copyProperties(newProduct, product, "id");
         productDAO.update(product);
-        return newProduct;
+        return new ResponseEntity<>(newProduct, HttpStatus.NOT_MODIFIED);
     }
 
     @DeleteMapping("/delete-product/{id}")
-    public void delete(@PathVariable String id, Product product) {
+    public ResponseEntity<Long> delete(@PathVariable Long id) {
+        Product product = productDAO.findById(id);
+        if (product.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         productDAO.delete(product);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

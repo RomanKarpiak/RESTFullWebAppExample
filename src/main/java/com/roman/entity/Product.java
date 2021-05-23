@@ -23,8 +23,27 @@ public class Product extends StoreItem {
     @JsonView(Views.Private.class)
     private List<ProductPhoto> productPhotos = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "products", cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST})
     private Set<Cart> carts = new HashSet<>();
+
+    public void addCart(Cart cart) {
+        boolean added = this.carts.add(cart);
+        if (added) {
+            cart.getProducts().add(this);
+        }
+    }
+
+    public void removeCart(Cart cart) {
+        boolean removed = this.carts.remove(cart);
+        if (removed) {
+            cart.getProducts().remove(this);
+        }
+    }
+
 
     public Product() {
         super();
@@ -102,12 +121,12 @@ public class Product extends StoreItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return price == product.price && Objects.equals(description, product.description) && Objects.equals(productPhotos, product.productPhotos) && Objects.equals(carts, product.carts);
+        return price == product.price && Objects.equals(description, product.description) && Objects.equals(productPhotos, product.productPhotos);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(description, price, productPhotos, carts);
+        return Objects.hash(description, price, productPhotos);
     }
 
     @Override

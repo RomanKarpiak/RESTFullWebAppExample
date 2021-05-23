@@ -36,7 +36,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void delete(Customer customer) {
-        factory.getCurrentSession().delete(customer);
+
+        factory.getCurrentSession().remove(customer);
     }
 
     @Override

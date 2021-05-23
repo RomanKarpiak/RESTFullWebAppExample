@@ -5,10 +5,11 @@ import com.roman.views.Views;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class Address {
+public class Address implements Serializable {
 
     @Column(name = "country")
     @JsonView(Views.Private.class)

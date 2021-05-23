@@ -5,7 +5,7 @@ insert into customer(name, phone, email, country, city, street)
 values('Petya','2323','petya@gmail.com','Russia', 'Kurgan', 'Lenina 90');
 
 insert into customer(name, phone, email, country, city, street)
-values('Lindoro','5555','lindoro@gmail.com', 'Belar', 'Minsk', 'Kupala 2');
+values('Lindoro','5555','lindoro@gmail.com', 'Belarus', 'Minsk', 'Kupala 2');
 
 
 
