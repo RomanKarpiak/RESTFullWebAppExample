@@ -45,7 +45,6 @@ public class HibernateConfigLocalProfile {
     public DataSourceInitializer dataSourceInitializer(DataSource ds) {
         ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
         resourceDatabasePopulator.addScript(new ClassPathResource("/data.sql"));
-//        resourceDatabasePopulator.addScript(new ClassPathResource("/schema.sql"));
         DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
         dataSourceInitializer.setDataSource(ds);
         dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
@@ -64,7 +63,6 @@ public class HibernateConfigLocalProfile {
         hibernateProperties.put("hibernate.format_sql", "true");
         hibernateProperties.put("hibernate.show_sql", "true");
         hibernateProperties.put("hibernate.hbm2ddl.auto", "create");
-
         return hibernateProperties;
     }
 }
