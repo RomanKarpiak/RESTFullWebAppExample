@@ -1,8 +1,8 @@
 RESTfulWesAppExample
 
-===============
+
 Pre Requesting
-===============
+
 
 1.JDK 1.8
 
@@ -32,18 +32,18 @@ Pre Requesting
 
 
 
-===================
+
 How project works.
-===================
+
 Step 1: open project form any Spring pluging enable Ide 
 Step 2: Set Up postgresql and H2, create database shop for PostgreSQL
 Step 3: install Jetty
 Step 4: run test mvn test
 Step 5: select the profile (prod or local) that you want to start the app with, then run JettyRunner, the database is populated from data.sql.
 
-================
+
 Rest service
-================
+
 
 Api url: http://localhost:8080/customers
 
