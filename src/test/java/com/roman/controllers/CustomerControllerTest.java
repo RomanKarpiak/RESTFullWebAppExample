@@ -70,13 +70,13 @@ public class CustomerControllerTest {
 
 
     @Test()
-    public void getCustomerById()  {
+    public void getCustomerById() {
         when(customerDAO.findById(2L)).thenReturn(customers.get(1));
 
         ReflectionTestUtils.setField(controller, "customerDAO", customerDAO);
         ExtendedModelMap uiModel = new ExtendedModelMap();
         uiModel.addAttribute("customer", controller.getCustomerById(2L));
-        ResponseEntity<Customer> model = (ResponseEntity<Customer>)uiModel.get("customer");
+        ResponseEntity<Customer> model = (ResponseEntity<Customer>) uiModel.get("customer");
 
         Assert.assertEquals(200, model.getStatusCodeValue());
         Assert.assertEquals("Sergey", Objects.requireNonNull(model.getBody()).getName());
