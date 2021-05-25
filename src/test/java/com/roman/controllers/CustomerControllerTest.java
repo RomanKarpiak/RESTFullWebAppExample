@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CustomerControllerTest {
 
@@ -70,7 +69,7 @@ public class CustomerControllerTest {
 
 
     @Test()
-    public void getCustomerById() {
+    public void getCustomerByIdTest() {
         when(customerDAO.findById(2L)).thenReturn(customers.get(1));
 
         ReflectionTestUtils.setField(controller, "customerDAO", customerDAO);
@@ -123,6 +122,23 @@ public class CustomerControllerTest {
         Assert.assertEquals("Leonid", Objects.requireNonNull(responseEntity.getBody()).getName());
         Assert.assertEquals("leonid@sd", Objects.requireNonNull(responseEntity.getBody()).getEmail());
         Assert.assertEquals("555555", Objects.requireNonNull(responseEntity.getBody()).getPhone());
+    }
+
+    @Test
+    public void whenDeleteCustomerThenCustomersSize1AndStatus200() {
+        when(customerDAO.findById(1L)).thenReturn(customers.get(0));
+        doAnswer((Answer<Long>) invocationOnMock -> {
+            Customer customer = invocationOnMock.getArgument(0);
+            customers.remove(0);
+            return customer.getId();
+        }).when(customerDAO).delete(customers.get(0));
+
+        ReflectionTestUtils.setField(controller, "customerDAO", customerDAO);
+
+        ResponseEntity<Long> responseEntity = controller.delete(1L);
+        Assert.assertEquals(200, responseEntity.getStatusCodeValue());
+        Assert.assertEquals(1L, Objects.requireNonNull(responseEntity.getBody()).longValue());
+        Assert.assertEquals(1,customers.size());
     }
 
 }
