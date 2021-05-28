@@ -1,8 +1,5 @@
 package com.roman.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.roman.views.Views;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,23 +12,18 @@ public class Customer implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Views.Private.class)
     private Long id;
 
     @Column(name = "name")
-    @JsonView(Views.Private.class)
     private String name;
 
     @Column(name = "phone")
-    @JsonView(Views.Private.class)
     private String phone;
 
     @Column(name = "email")
-    @JsonView(Views.Private.class)
     private String email;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    @JsonView(Views.Private.class)
     private Cart cart;
 
     @Embedded
@@ -40,7 +32,6 @@ public class Customer implements Serializable {
             @AttributeOverride(name = "city", column = @Column(name = "city")),
             @AttributeOverride(name = "street", column = @Column(name = "street"))
     })
-    @JsonView(Views.Private.class)
     private Address address;
 
     public Customer() {

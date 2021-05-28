@@ -1,8 +1,5 @@
 package com.roman.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.roman.views.Views;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,11 +8,9 @@ public abstract class StoreItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Views.Private.class)
     private Long id;
 
     @Column(name = "name")
-    @JsonView(Views.Private.class)
     private String name;
 
     public StoreItem() {

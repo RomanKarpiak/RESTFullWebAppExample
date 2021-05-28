@@ -1,17 +1,18 @@
 package com.roman.dao.daoImpl;
 
-import com.roman.dao.CustomerDAO;
+import com.roman.dao.CrudDAO;
 import com.roman.entity.Customer;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
-@Service
+@Repository
 @Transactional
-public class CustomerDAOImpl implements CustomerDAO {
+public class CustomerDAOImpl implements CrudDAO<Customer, Long> {
 
     @Autowired
     private SessionFactory factory;
@@ -47,7 +48,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             return customerList;
         } else {
             System.out.println("Data base is empty!");
-            return null;
+            return Collections.emptyList();
         }
     }
 }

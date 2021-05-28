@@ -1,7 +1,7 @@
 package com.roman.controllers;
 
 
-import com.roman.dao.CustomerDAO;
+import com.roman.dao.CrudDAO;
 import com.roman.entity.Address;
 import com.roman.entity.Cart;
 import com.roman.entity.Customer;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 public class CustomerControllerTest {
 
     @Mock
-    private CustomerDAO customerDAO;
+    private CrudDAO<Customer,Long> customerDAO;
     @InjectMocks
     CustomerController controller = new CustomerController();
 

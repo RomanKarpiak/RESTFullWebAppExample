@@ -1,8 +1,5 @@
 package com.roman.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.roman.views.Views;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -15,7 +12,6 @@ public class Cart implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Views.Private.class)
     private Long id;
 
     @OneToOne()

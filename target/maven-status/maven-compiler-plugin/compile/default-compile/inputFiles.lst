@@ -1,0 +1,17 @@
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\dao\daoImpl\CartDAOImpl.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\config\HibernateConfigLocalProfile.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\entity\Address.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\entity\StoreItem.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\controllers\CustomerController.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\controllers\ProductController.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\entity\Product.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\config\MySpringMvcDispatcherInitializer.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\config\HibernateConfigProdConfig.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\dao\daoImpl\ProductDAOImpl.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\dao\CrudDAO.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\dao\daoImpl\CustomerDAOImpl.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\entity\Cart.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\entity\Customer.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\entity\ProductPhoto.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\config\SpringConfig.java
+C:\Users\roman\IdeaProjects\RESTFullWebAppExample\src\main\java\com\roman\dao\daoImpl\ProductPhotoDAOImpl.java

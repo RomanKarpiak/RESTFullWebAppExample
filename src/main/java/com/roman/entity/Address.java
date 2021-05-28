@@ -1,8 +1,5 @@
 package com.roman.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.roman.views.Views;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -12,15 +9,12 @@ import java.util.Objects;
 public class Address implements Serializable {
 
     @Column(name = "country")
-    @JsonView(Views.Private.class)
     private String country;
 
     @Column(name = "city")
-    @JsonView(Views.Private.class)
     private String city;
 
     @Column(name = "street")
-    @JsonView(Views.Private.class)
     private String street;
 
     public Address() {

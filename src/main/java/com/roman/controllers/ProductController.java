@@ -1,9 +1,7 @@
 package com.roman.controllers;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.roman.dao.ProductDAO;
+import com.roman.dao.CrudDAO;
 import com.roman.entity.Product;
-import com.roman.views.Views;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,15 +15,14 @@ import java.util.List;
 @RequestMapping(value = "/products", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class ProductController {
 
-    private final ProductDAO productDAO;
+    private final CrudDAO<Product,Long> productDAO;
 
     @Autowired
-    public ProductController(ProductDAO productDAO) {
+    public ProductController(CrudDAO<Product,Long> productDAO) {
         this.productDAO = productDAO;
     }
 
     @GetMapping()
-    @JsonView(Views.Private.class)
     public ResponseEntity<List<Product>> getListProducts() {
         List<Product> products = productDAO.findAll();
         return !products.isEmpty()
@@ -34,7 +31,6 @@ public class ProductController {
     }
 
     @GetMapping(value = "/get-product/{id}")
-    @JsonView(Views.Private.class)
     public ResponseEntity<Product> getProductById(@PathVariable String id) {
         Product product = productDAO.findById(Long.parseLong(id));
         return product.getId() != null ?

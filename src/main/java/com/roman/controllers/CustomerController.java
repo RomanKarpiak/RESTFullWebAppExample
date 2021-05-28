@@ -1,10 +1,8 @@
 package com.roman.controllers;
 
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.roman.dao.CustomerDAO;
+import com.roman.dao.CrudDAO;
 import com.roman.entity.Customer;
-import com.roman.views.Views;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,18 +16,17 @@ import java.util.List;
 @RequestMapping(value = "/customers", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class CustomerController {
 
-    private CustomerDAO customerDAO;
+    private CrudDAO<Customer,Long> customerDAO;
 
     public CustomerController() {
     }
 
     @Autowired
-    public CustomerController(CustomerDAO customerDAO) {
+    public CustomerController(CrudDAO<Customer,Long> customerDAO) {
         this.customerDAO = customerDAO;
     }
 
     @GetMapping()
-    @JsonView(Views.Private.class)
     public ResponseEntity<List<Customer>> getListCustomers() {
         List<Customer> customers = customerDAO.findAll();
         return !customers.isEmpty()
@@ -38,7 +35,6 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/get-customer/{id}")
-    @JsonView(Views.Private.class)
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
         Customer customer = customerDAO.findById(id);
         return customer.getId() != null ?

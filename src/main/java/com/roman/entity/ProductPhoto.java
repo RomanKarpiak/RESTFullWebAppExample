@@ -1,8 +1,5 @@
 package com.roman.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.roman.views.Views;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,11 +10,9 @@ public class ProductPhoto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Views.Private.class)
     private Long id;
 
     @Column(name = "url")
-    @JsonView(Views.Private.class)
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)

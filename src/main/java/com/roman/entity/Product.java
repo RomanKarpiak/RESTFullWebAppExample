@@ -1,8 +1,5 @@
 package com.roman.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.roman.views.Views;
-
 import javax.persistence.*;
 import java.util.*;
 
@@ -12,15 +9,12 @@ import java.util.*;
 public class Product extends StoreItem {
 
     @Column(name = "description")
-    @JsonView(Views.Private.class)
     private String description;
 
     @Column(name = "price")
-    @JsonView(Views.Private.class)
     private int price;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "productId", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonView(Views.Private.class)
     private List<ProductPhoto> productPhotos = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "products", cascade = {
