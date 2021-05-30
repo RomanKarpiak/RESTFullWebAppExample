@@ -14,8 +14,12 @@ import java.util.List;
 @Transactional
 public class ProductDAOImpl implements CrudDAO<Product, Long> {
 
+    private final SessionFactory factory;
+
     @Autowired
-    private SessionFactory factory;
+    public ProductDAOImpl(SessionFactory factory) {
+        this.factory = factory;
+    }
 
     @Override
     public void create(Product product) {
@@ -24,7 +28,7 @@ public class ProductDAOImpl implements CrudDAO<Product, Long> {
 
     @Override
     public Product findById(Long id) {
-        Product result = factory.getCurrentSession().get(Product.class, id);
+        final Product result = factory.getCurrentSession().get(Product.class, id);
         return result != null ? result : new Product();
 
     }
@@ -32,9 +36,7 @@ public class ProductDAOImpl implements CrudDAO<Product, Long> {
     @Override
     public void update(Product product) {
         factory.getCurrentSession().update(product);
-
     }
-
 
     @Override
     public void delete(Product product) {
@@ -47,7 +49,6 @@ public class ProductDAOImpl implements CrudDAO<Product, Long> {
         if (!productList.isEmpty()) {
             return productList;
         } else {
-            System.out.println("Data base is empty!");
             return Collections.emptyList();
         }
     }

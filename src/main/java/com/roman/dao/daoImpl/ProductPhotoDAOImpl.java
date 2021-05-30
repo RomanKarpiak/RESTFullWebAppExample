@@ -14,9 +14,12 @@ import java.util.List;
 @Transactional
 public class ProductPhotoDAOImpl implements CrudDAO<ProductPhoto, Long> {
 
-    @Autowired
-    private SessionFactory factory;
+    private final SessionFactory factory;
 
+    @Autowired
+    public ProductPhotoDAOImpl(SessionFactory factory) {
+        this.factory = factory;
+    }
 
     @Override
     public void create(ProductPhoto productPhoto) {
@@ -45,7 +48,6 @@ public class ProductPhotoDAOImpl implements CrudDAO<ProductPhoto, Long> {
         if (!productPhotoList.isEmpty()) {
             return productPhotoList;
         } else {
-            System.out.println("Data base is empty!");
             return Collections.emptyList();
         }
 

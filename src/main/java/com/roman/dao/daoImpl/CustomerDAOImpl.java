@@ -14,9 +14,13 @@ import java.util.List;
 @Transactional
 public class CustomerDAOImpl implements CrudDAO<Customer, Long> {
 
-    @Autowired
-    private SessionFactory factory;
 
+    private final SessionFactory factory;
+
+    @Autowired
+    public CustomerDAOImpl(SessionFactory factory) {
+        this.factory = factory;
+    }
 
     @Override
     public void create(Customer customer) {
@@ -37,7 +41,6 @@ public class CustomerDAOImpl implements CrudDAO<Customer, Long> {
 
     @Override
     public void delete(Customer customer) {
-
         factory.getCurrentSession().remove(customer);
     }
 
@@ -47,7 +50,6 @@ public class CustomerDAOImpl implements CrudDAO<Customer, Long> {
         if (!customerList.isEmpty()) {
             return customerList;
         } else {
-            System.out.println("Data base is empty!");
             return Collections.emptyList();
         }
     }

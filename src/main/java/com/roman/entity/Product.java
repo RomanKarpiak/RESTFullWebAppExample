@@ -1,11 +1,14 @@
 package com.roman.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.*;
 
 
 @Entity
 @Table(name = "product")
+@JsonIgnoreProperties(value= {"carts"})
 public class Product extends StoreItem {
 
     @Column(name = "description")
@@ -14,14 +17,10 @@ public class Product extends StoreItem {
     @Column(name = "price")
     private int price;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "productId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "productId", cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<ProductPhoto> productPhotos = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "products", cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "products", cascade = CascadeType.ALL)
     private Set<Cart> carts = new HashSet<>();
 
     public void addCart(Cart cart) {
@@ -114,13 +113,14 @@ public class Product extends StoreItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Product product = (Product) o;
-        return price == product.price && Objects.equals(description, product.description) && Objects.equals(productPhotos, product.productPhotos);
+        return price == product.price && Objects.equals(description, product.description) && Objects.equals(productPhotos, product.productPhotos) && Objects.equals(carts, product.carts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(description, price, productPhotos);
+        return Objects.hash(super.hashCode(), description, price, productPhotos, carts);
     }
 
     @Override

@@ -13,8 +13,13 @@ import java.util.List;
 @Transactional
 @Repository
 public class CartDAOImpl implements CrudDAO<Cart, Long> {
+
+    private final SessionFactory factory;
+
     @Autowired
-    private SessionFactory factory;
+    public CartDAOImpl(SessionFactory factory) {
+        this.factory = factory;
+    }
 
     @Override
     public void create(Cart cart) {
@@ -43,7 +48,6 @@ public class CartDAOImpl implements CrudDAO<Cart, Long> {
         if (!cartList.isEmpty()) {
             return cartList;
         } else {
-            System.out.println("Data base is empty!");
             return Collections.emptyList();
         }
     }

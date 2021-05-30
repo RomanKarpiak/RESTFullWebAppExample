@@ -2,6 +2,7 @@ package com.roman.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @MappedSuperclass
 public abstract class StoreItem implements Serializable {
@@ -30,5 +31,18 @@ public abstract class StoreItem implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StoreItem storeItem = (StoreItem) o;
+        return Objects.equals(id, storeItem.id) && Objects.equals(name, storeItem.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
