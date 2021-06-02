@@ -15,4 +15,5 @@ public class SpringConfig {
     public SpringConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
+
 }
