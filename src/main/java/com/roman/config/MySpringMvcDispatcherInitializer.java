@@ -1,25 +1,27 @@
 package com.roman.config;
 
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 
-public class MySpringMvcDispatcherInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-
-
-
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{HibernateConfig.class};
-    }
-
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{SpringConfig.class};
-    }
+public class MySpringMvcDispatcherInitializer implements WebApplicationInitializer {
 
     @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
+    public void onStartup(ServletContext container) throws ServletException {
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+        context.setConfigLocation("com.roman.config");
+        container.addListener(new ContextLoaderListener(context));
 
+        ServletRegistration.Dynamic dispatcher =
+                container.addServlet("dispatcher",new DispatcherServlet(context));
+
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
+    }
 }

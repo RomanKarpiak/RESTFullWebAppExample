@@ -14,9 +14,6 @@ com\roman\dao\CrudDAO.class
 com\roman\dao\daoImpl\ProductPhotoDAOImpl.class
 com\roman\exceptions\CustomerNotFoundAdvice.class
 com\roman\config\ProdDatasourceConfig.class
-com\roman\service\CustomerService.class
-com\roman\service\Impl\CustomerServiceImpl.class
-com\roman\config\HibernateConfig.class
 com\roman\controllers\Impl\ProductControllerImpl.class
 com\roman\config\MySpringMvcDispatcherInitializer.class
 com\roman\exceptions\CustomerNotFoundException.class
@@ -24,5 +21,3 @@ com\roman\controllers\Impl\CustomerControllerImpl.class
 com\roman\entity\Address.class
 com\roman\entity\Cart.class
 com\roman\dao\daoImpl\ProductDAOImpl.class
-com\roman\service\ProductService.class
-com\roman\service\Impl\ProductServiceImpl.class

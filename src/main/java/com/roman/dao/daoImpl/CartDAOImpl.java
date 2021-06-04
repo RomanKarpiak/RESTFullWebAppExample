@@ -5,14 +5,13 @@ import com.roman.entity.Cart;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
 
-@Transactional
+
 @Repository
-public class CartDAOImpl implements CrudDAO<Cart, Long> {
+public class CartDAOImpl implements CrudDAO<Cart> {
 
     private final SessionFactory factory;
 

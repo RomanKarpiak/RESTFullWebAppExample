@@ -3,11 +3,11 @@ package com.roman.dao;
 import java.util.List;
 
 
-public interface CrudDAO<Entity, Key> {
+public interface CrudDAO<Entity> {
 
     void create(Entity entity);
 
-    Entity findById(Key key);
+    Entity findById(Long id);
 
     void update(Entity entity);
 

@@ -2,9 +2,7 @@ package com.roman.controllers.Impl;
 
 import com.roman.controllers.ProductController;
 import com.roman.entity.Product;
-import com.roman.exceptions.ProductNotFoundException;
-import com.roman.service.ProductService;
-import org.springframework.beans.BeanUtils;
+import com.roman.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,10 +11,10 @@ import java.util.List;
 @RestController
 public class ProductControllerImpl implements ProductController {
 
-    private final ProductService service;
+    private final ShopService<Product> service;
 
     @Autowired
-    public ProductControllerImpl(ProductService service) {
+    public ProductControllerImpl(ShopService<Product> service) {
         this.service = service;
     }
 
@@ -27,11 +25,7 @@ public class ProductControllerImpl implements ProductController {
 
     @Override
     public Product findById(Long id) {
-        Product product = service.findById(id);
-        if (product.getId() == null) {
-            throw new ProductNotFoundException(id);
-        }
-        return product;
+        return service.findById(id);
 
     }
 
@@ -45,10 +39,6 @@ public class ProductControllerImpl implements ProductController {
     @Override
     public Product update(Product newProduct) {
         Product product = service.findById(newProduct.getId());
-        if (product.getId() == null) {
-            throw new ProductNotFoundException(newProduct.getId());
-        }
-        BeanUtils.copyProperties(newProduct, product, "id");
         service.update(product);
         return newProduct;
     }

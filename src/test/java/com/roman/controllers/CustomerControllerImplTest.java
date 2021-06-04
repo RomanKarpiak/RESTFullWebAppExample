@@ -4,7 +4,7 @@ package com.roman.controllers;
 public class CustomerControllerImplTest {
 
 //    @Mock
-//    private CustomerService service;
+//    private ShopService service;
 //    @InjectMocks
 //    CustomerControllerImpl controller;
 //
