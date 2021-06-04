@@ -5,9 +5,11 @@ com\roman\config\SpringConfig.class
 com\roman\entity\Customer.class
 com\roman\dao\daoImpl\CustomerDAOImpl.class
 com\roman\entity\ProductPhoto.class
+com\roman\service\Impl\ProductShopServiceImpl.class
 com\roman\exceptions\ProductNotFoundException.class
 com\roman\exceptions\ProductNotFoundAdvice.class
 com\roman\config\LocalDatasourceConfig.class
+com\roman\service\Impl\CustomerShopServiceImpl.class
 com\roman\entity\StoreItem.class
 com\roman\entity\Product.class
 com\roman\dao\CrudDAO.class
@@ -20,4 +22,5 @@ com\roman\exceptions\CustomerNotFoundException.class
 com\roman\controllers\Impl\CustomerControllerImpl.class
 com\roman\entity\Address.class
 com\roman\entity\Cart.class
+com\roman\service\ShopService.class
 com\roman\dao\daoImpl\ProductDAOImpl.class

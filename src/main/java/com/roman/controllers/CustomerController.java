@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping(value = "/customers")
 public interface CustomerController {
 
-    @PostMapping()
+    @PostMapping
     Customer create(@RequestBody Customer customer);
 
-    @PutMapping()
+    @PutMapping
     Customer update(@RequestBody Customer newCustomer);
 
     @DeleteMapping("/{id}")
@@ -23,6 +23,6 @@ public interface CustomerController {
     @GetMapping(value = "/{id}")
     Customer findById(@PathVariable Long id);
 
-    @GetMapping()
+    @GetMapping
     List<Customer> findAll();
 }

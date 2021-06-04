@@ -1,10 +1,8 @@
 package com.roman.service;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
-@Transactional
+
 public interface ShopService<Entity> {
 
     void create(Entity entity);

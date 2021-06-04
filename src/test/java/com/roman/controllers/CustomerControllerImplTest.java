@@ -1,123 +1,164 @@
 package com.roman.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.roman.config.SpringConfig;
+import com.roman.controllers.Impl.CustomerControllerImpl;
+import com.roman.entity.Address;
+import com.roman.entity.Cart;
+import com.roman.entity.Customer;
+import com.roman.service.ShopService;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.jayway.jsonassert.impl.matcher.IsCollectionWithSize.hasSize;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@ExtendWith(SpringExtension.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = SpringConfig.class)
+@WebAppConfiguration
+@ActiveProfiles(value = "local")
 public class CustomerControllerImplTest {
 
-//    @Mock
-//    private ShopService service;
-//    @InjectMocks
-//    CustomerControllerImpl controller;
-//
-//
-//    private List<Customer> customers = new ArrayList<>();
-//
-//    @Before
-//    public void initCustomers() {
-//        MockitoAnnotations.openMocks(this);
-//        Customer customerOne = new Customer();
-//        customerOne.setId(1L);
-//        customerOne.setName("Alex");
-//        customerOne.setPhone("111");
-//        customerOne.setEmail("alex@sd");
-//        customerOne.setCart(new Cart());
-//        customerOne.setAddress(new Address("Russia", "Moscow", "New"));
-//
-//        Customer customerTwo = new Customer();
-//        customerTwo.setId(2L);
-//        customerTwo.setName("Sergey");
-//        customerTwo.setPhone("222");
-//        customerTwo.setEmail("seerg@sd");
-//        customerTwo.setCart(new Cart());
-//        customerTwo.setAddress(new Address("Russia", "Peterburg", "Old"));
-//        customers.add(customerOne);
-//        customers.add(customerTwo);
-//    }
-//
-//    @Test
-//    public void getListCustomersTest() {
-//        when(service.findAll()).thenReturn(customers);
-//
-//        ReflectionTestUtils.setField(controller, "customerDAO", service);
-//        ExtendedModelMap uiModel = new ExtendedModelMap();
-//        uiModel.addAttribute("customers", controller.findAll());
-//        ResponseEntity<List<Customer>> model = (ResponseEntity<List<Customer>>) uiModel.get("customers");
-//
-//        Assert.assertEquals(200, model.getStatusCodeValue());
-//        Assert.assertEquals(2, Objects.requireNonNull(model.getBody()).size());
-//    }
-//
-//
-//    @Test()
-//    public void getCustomerByIdTest() {
-//        when(service.findById(2L)).thenReturn(customers.get(1));
-//
-//        ReflectionTestUtils.setField(controller, "customerDAO", service);
-//        ExtendedModelMap uiModel = new ExtendedModelMap();
-//        uiModel.addAttribute("customer", controller.findById(2L));
-//        ResponseEntity<Customer> model = (ResponseEntity<Customer>) uiModel.get("customer");
-//
-//        Assert.assertEquals(200, model.getStatusCodeValue());
-//        Assert.assertEquals("Sergey", Objects.requireNonNull(model.getBody()).getName());
-//    }
+    @Mock
+    private ShopService<Customer> service;
 
-//    @Test
-//    public void whenCreateCustomerGetStatus201() {
-//        Customer customer = new Customer();
-//        customer.setId(2L);
-//        customer.setName("Fedor");
-//        customer.setPhone("111");
-//        customer.setEmail("fedor@sd");
-//        customer.setCart(new Cart());
-//        customer.setAddress(new Address("Russia", "Moscow", "New"));
-//
-//        doAnswer((Answer<Customer>) invocationOnMock -> {
-//            customers.add(customer);
-//            return customer;
-//        }).when(service).create(customer);
-//
-//        ReflectionTestUtils.setField(controller, "customerDAO", service);
-//        ResponseEntity<Customer> responseEntity = controller.create(customer);
-//
-//        Assert.assertEquals(201, responseEntity.getStatusCodeValue());
-//        Assert.assertEquals("Fedor", Objects.requireNonNull(responseEntity.getBody()).getName());
-//    }
+    @InjectMocks
+    CustomerControllerImpl controller;
 
-//    @Test
-//    public void whenUpdateCustomerNameThenReturnStatus200AndUpdateCustomer() {
-//        Customer updatedCustomer1 = new Customer();
-//        updatedCustomer1.setId(1L);
-//        updatedCustomer1.setName("Leonid");
-//        updatedCustomer1.setPhone("555555");
-//        updatedCustomer1.setEmail("leonid@sd");
-//        updatedCustomer1.setCart(new Cart());
-//        updatedCustomer1.setAddress(new Address("Russia", "Moscow", "New"));
-//
-//        when(service.findById(1L)).thenReturn(customers.get(0));
-//
-//        ReflectionTestUtils.setField(controller, "customerDAO", service);
-//
-//        ResponseEntity<Customer> responseEntity = controller.update(updatedCustomer1);
-//        Assert.assertEquals(200, responseEntity.getStatusCodeValue());
-//        Assert.assertEquals("Leonid", Objects.requireNonNull(responseEntity.getBody()).getName());
-//        Assert.assertEquals("leonid@sd", Objects.requireNonNull(responseEntity.getBody()).getEmail());
-//        Assert.assertEquals("555555", Objects.requireNonNull(responseEntity.getBody()).getPhone());
-//    }
 
-//    @Test
-//    public void whenDeleteCustomerThenCustomersSize1AndStatus200() {
-//        when(service.findById(1L)).thenReturn(customers.get(0));
-//        doAnswer((Answer<Long>) invocationOnMock -> {
-//            Customer customer = invocationOnMock.getArgument(0);
-//            customers.remove(0);
-//            return customer.getId();
-//        }).when(service).delete(customers.get(0));
-//
-//        ReflectionTestUtils.setField(controller, "customerDAO", service);
-//
-//        ResponseEntity<Long> responseEntity = controller.deleteById(1L);
-//        Assert.assertEquals(200, responseEntity.getStatusCodeValue());
-//        Assert.assertEquals(1L, Objects.requireNonNull(responseEntity.getBody()).longValue());
-//        Assert.assertEquals(1,customers.size());
-//    }
+    private MockMvc mockMvc;
+
+
+    private List<Customer> customers = new ArrayList<>();
+
+    @Before
+    public void initCustomers() throws Exception {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        Customer customerOne = new Customer();
+        customerOne.setId(1L);
+        customerOne.setName("Alex");
+        customerOne.setPhone("111");
+        customerOne.setEmail("alex@sd");
+        customerOne.setCart(new Cart());
+        customerOne.setAddress(new Address("Russia", "Moscow", "New"));
+
+        Customer customerTwo = new Customer();
+        customerTwo.setId(2L);
+        customerTwo.setName("Sergey");
+        customerTwo.setPhone("222");
+        customerTwo.setEmail("seerg@sd");
+        customerTwo.setCart(new Cart());
+        customerTwo.setAddress(new Address("Russia", "Peterburg", "Old"));
+        customers.add(customerOne);
+        customers.add(customerTwo);
+
+    }
+
+    @Test
+    public void createNewCustomerTest() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/customers")
+                .content(asJsonString(customers.get(0)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists());
+
+
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void getListCustomersTest() throws Exception {
+        when(service.findAll()).thenReturn(customers);
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/customers")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[*]", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value(1));
+
+    }
+
+    @Test
+    public void getCustomerByIdTest() throws Exception {
+        when(service.findById(1L)).thenReturn(customers.get(0));
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/customers/{id}", 1)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("Alex"));
+
+    }
+
+    @Test
+    public void deleteCustomerTest() throws Exception {
+        doNothing().when(service).delete(customers.get(0));
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/customers/{id}", 1))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void updateCustomerTest() throws Exception {
+
+        Customer updatedCustomer = new Customer();
+        updatedCustomer.setId(1L);
+        updatedCustomer.setName("Alex");
+        updatedCustomer.setPhone("12345");
+        updatedCustomer.setEmail("alexNewEmail@sd");
+        updatedCustomer.setCart(new Cart());
+        updatedCustomer.setAddress(new Address("Russia", "Moscow", "New"));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/customers")
+                .content(asJsonString(updatedCustomer))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Alex"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.phone").value("12345"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("alexNewEmail@sd"));
+    }
+
 
 }
+
+
